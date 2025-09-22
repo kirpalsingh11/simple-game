@@ -1,5 +1,7 @@
 canvas { 
-  border: 2px solid black; 
+  border: 2px solid orange; 
+    background-color: aqua;
+
 }
 #restartBtn { 
   display: none; 
@@ -8,4 +10,15 @@ canvas {
 body {
   font-family: Arial, sans-serif;
   text-align: center;
+
 }
+#leaderboard {
+  list-style: none;
+  padding: 0;
+}
+#leaderboard li {
+  font-size: 18px;
+  margin: 2px 0;
+}
+
+
