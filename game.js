@@ -78,55 +78,39 @@ function endGame() {
   document.getElementById("restartBtn").style.display = "block";
 }
 
-// ---------------- Save Score ----------------
+// ---------------- Save Score to Firebase ----------------
 function saveScore(newScore) {
-  // Save to localStorage
-  let scores = JSON.parse(localStorage.getItem("scores")) || [];
-  scores.push(newScore);
-  scores.sort((a,b)=>b-a);
-  scores = scores.slice(0,5);
-  localStorage.setItem("scores", JSON.stringify(scores));
-
-  // Save to Firebase
   db.ref("scores").push({
     score: newScore,
     time: Date.now()
   });
-
   updateLeaderboard();
 }
 
-// ---------------- Update Leaderboard ----------------
+// ---------------- Update Leaderboard from Firebase ----------------
 function updateLeaderboard() {
-  // Local scores
-  let scores = JSON.parse(localStorage.getItem("scores")) || [];
-  let list = document.getElementById("leaderboard");
-  list.innerHTML = "";
-
-  scores.forEach((s,i)=>{
-    let li = document.createElement("li");
-    li.textContent = `#${i+1}: ${s}`;
-    list.appendChild(li);
-  });
-
-  // Firebase top 5
-  db.ref("scores").orderByChild("score").limitToLast(5)
-    .on("value", snapshot=>{
-      let fbScores = [];
-      snapshot.forEach(snap=>{
-        fbScores.push(snap.val().score);
+  db.ref("scores")
+    .orderByChild("score")
+    .limitToLast(5)
+    .on("value", snapshot => {
+      let scores = [];
+      snapshot.forEach(snap => {
+        scores.push(snap.val().score);
       });
-      fbScores = fbScores.reverse();
-      fbScores.forEach((s,i)=>{
+      scores = scores.reverse();
+
+      let list = document.getElementById("leaderboard");
+      list.innerHTML = "";
+      scores.forEach((s, i) => {
         let li = document.createElement("li");
-        li.textContent = `#${i+1} (Global): ${s}`;
+        li.textContent = `#${i+1}: ${s}`;
         list.appendChild(li);
       });
     });
 }
 
 // ---------------- Restart Button ----------------
-document.getElementById("restartBtn").addEventListener("click", ()=>{
+document.getElementById("restartBtn").addEventListener("click", () => {
   score = 0;
   timeLeft = 30;
   gameOver = false;
@@ -140,4 +124,3 @@ document.getElementById("restartBtn").addEventListener("click", ()=>{
 updateLeaderboard();
 gameLoop();
 countdown();
-
