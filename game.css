@@ -1,32 +1,19 @@
-canvas {
-  border: 2px solid orange;
-  display: block;
-  margin: 0 auto;
-  background-color: light-blue;
-}
-
-#restartBtn { 
-  display: none; 
-  margin-top: 10px; 
-}
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  position: relative; /* so absolute children are relative to body */
-  margin: 0;
+#gameContainer {
+  position: relative; /* so children with absolute are relative to this container */
 }
 
 #leaderboard {
   list-style: none;
   padding: 10px;
+  margin: 0;
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   background-color: rgba(255,255,255,0.8);
   border: 1px solid black;
   border-radius: 5px;
   width: 150px;
-  z-index: 10; /* make sure it’s on top of the canvas */
+  z-index: 10; /* ensure it's on top of canvas */
 }
 
 #leaderboard li {
@@ -34,6 +21,7 @@ body {
   margin: 2px 0;
 }
 
-
-
-
+canvas {
+  border: 2px solid black;
+  display: block;
+}
