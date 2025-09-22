@@ -4,21 +4,25 @@
   <title>Click Game</title>
   <link rel="stylesheet" href="game.css">
 
-  <!-- Firebase SDK v8 -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
-  <h2>Click the Box!</h2>
-  <p>Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
+  <div id="gameContainer" style="position: relative; width: 600px; margin: 0 auto;">
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
 
-  <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <!-- Leaderboard in top-left of container -->
+    <ul id="leaderboard"></ul>
 
-  <button id="restartBtn" style="display:none;">Restart</button>
+    <!-- Restart button -->
+    <button id="restartBtn" style="display:none; position: absolute; top: 10px; right: 10px;">Restart</button>
+  </div>
 
-  <h3>Global Leaderboard</h3>
-  <ul id="leaderboard"></ul>
+  <!-- Timer and score -->
+  <p style="text-align: center;">Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
 
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="game.js"></script>
 </body>
+
 </html>
+
