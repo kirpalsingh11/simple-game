@@ -1,118 +1,122 @@
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
+// 🔹 1. Paste your Firebase config here
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcd"
+};
 
-    let timeLeft = 30; // seconds
-    let gameOver = false;
-    let box = { x: 50, y: 50, size: 50, border: 5 };
-    let score = 0;
+// 🔹 2. Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-    setInterval(() => {
-  if (!gameOver && timeLeft > 0) {
-    timeLeft--;
-  }
-  if (timeLeft === 0) {
-    gameOver = true;
-  }
-}, 1000);
+// 🔹 3. Game variables
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-    // Draw the box
-    function drawBox() {
-      ctx.fillStyle = "red";
-      ctx.lineWidth = box.border;
-        ctx.strokeStyle = "black";
-        ctx.strokeRect(box.x, box.y, box.size, box.size);
-      ctx.fillRect(box.x, box.y, box.size, box.size);
-    }
+let box = { x: 100, y: 100, size: 40 };
+let score = 0;
+let timeLeft = 30;
+let gameOver = false;
+let frame;
 
-    // Clear + redraw everything
-    function gameLoop() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillText("Time: " + timeLeft, 300, 25);
+function drawBox() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(box.x, box.y, box.size, box.size);
+}
 
-  if (gameOver) {
+function gameLoop() {
+  if (gameOver) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBox();
+  frame = requestAnimationFrame(gameLoop);
+}
+
+canvas.addEventListener("click", e => {
+  if (gameOver) return;
+  let rect = canvas.getBoundingClientRect();
+  let mouseX = e.clientX - rect.left;
+  let mouseY = e.clientY - rect.top;
+
+  if (mouseX >= box.x && mouseX <= box.x + box.size &&
+      mouseY >= box.y && mouseY <= box.y + box.size) {
+    score++;
+    document.getElementById("score").textContent = score;
+    box.x = Math.random() * (canvas.width - box.size);
+    box.y = Math.random() * (canvas.height - box.size);
+  }
+});
+
+function countdown() {
+  if (timeLeft > 0) {
+    document.getElementById("timer").textContent = timeLeft;
+    timeLeft--;
+    setTimeout(countdown, 1000);
+  } else {
+    endGame();
+  }
+}
+
+function endGame() {
+  gameOver = true;
+  cancelAnimationFrame(frame);
+
   ctx.fillStyle = "black";
   ctx.font = "30px Arial";
   ctx.fillText("Game Over!", 120, 180);
   ctx.fillText("Score: " + score, 140, 220);
 
-  // Show restart button
+  saveScore(score);
   document.getElementById("restartBtn").style.display = "block";
-  // Save score to localStorage
-let scores = JSON.parse(localStorage.getItem("scores")) || [];
-scores.push(score);
-
-// Keep only top 5 scores
-scores.sort((a, b) => b - a);
-scores = scores.slice(0, 5);
-
-localStorage.setItem("scores", JSON.stringify(scores));
-
-// Update leaderboard
-updateLeaderboard();
-
-
-  return;
 }
 
-function updateLeaderboard() {
-  let scores = JSON.parse(localStorage.getItem("scores")) || [];
-  let list = document.getElementById("leaderboard");
-  list.innerHTML = "";
-
-  scores.forEach((s, i) => {
-    let li = document.createElement("li");
-    li.textContent = `#${i+1}: ${s}`;
-    list.appendChild(li);
+// 🔹 4. Save to Firebase
+function saveScore(newScore) {
+  db.ref("scores").push({
+    score: newScore,
+    time: Date.now()
   });
+  updateLeaderboard();
 }
 
+// 🔹 5. Read from Firebase
+function updateLeaderboard() {
+  db.ref("scores")
+    .orderByChild("score")
+    .limitToLast(5)
+    .on("value", snapshot => {
+      let scores = [];
+      snapshot.forEach(snap => {
+        scores.push(snap.val().score);
+      });
+      scores = scores.reverse();
 
+      let list = document.getElementById("leaderboard");
+      list.innerHTML = "";
+      scores.forEach((s, i) => {
+        let li = document.createElement("li");
+        li.textContent = `#${i+1}: ${s}`;
+        list.appendChild(li);
+      });
+    });
+}
+
+// 🔹 6. Restart button
 document.getElementById("restartBtn").addEventListener("click", () => {
-  // Reset game variables
   score = 0;
   timeLeft = 30;
   gameOver = false;
-
-  // Hide button again
+  document.getElementById("score").textContent = score;
   document.getElementById("restartBtn").style.display = "none";
-
-  // Reset box position
-  box.x = Math.random() * (canvas.width - box.size);
-  box.y = Math.random() * (canvas.height - box.size);
-
-  gameLoop(); // restart the game loop
+  gameLoop();
+  countdown();
 });
 
+// Start game
+updateLeaderboard();
+gameLoop();
+countdown();
 
-      drawBox();
-
-      // Draw score
-      ctx.fillStyle = "black";
-      ctx.font = "20px Arial";
-      ctx.fillText("Score: " + score, 10, 25);
-
-      requestAnimationFrame(gameLoop);
-    }
-
-    // Check clicks
-    canvas.addEventListener("click", e => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
-      if (
-        mouseX >= box.x &&
-        mouseX <= box.x + box.size &&
-        mouseY >= box.y &&
-        mouseY <= box.y + box.size
-      ) {
-        score++;
-        // Move box to random spot
-        box.x = Math.random() * (canvas.width - box.size);
-        box.y = Math.random() * (canvas.height - box.size);
-      }
-    });
-
-    gameLoop();
-    updateLeaderboard();
