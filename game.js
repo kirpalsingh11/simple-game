@@ -1,18 +1,4 @@
-// 🔹 1. Paste your Firebase config here
-const firebaseConfig = {
-  apiKey: "AIzaSy....",
-  authDomain: "mygame-12345.firebaseapp.com",
-  databaseURL: "https://mygame-12345-default-rtdb.firebaseio.com",
-  projectId: "mygame-12345",
-  storageBucket: "mygame-12345.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456"
-};
 
-
-// 🔹 2. Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
 // 🔹 3. Game variables
 const canvas = document.getElementById("gameCanvas");
@@ -120,5 +106,6 @@ document.getElementById("restartBtn").addEventListener("click", () => {
 updateLeaderboard();
 gameLoop();
 countdown();
+
 
 
