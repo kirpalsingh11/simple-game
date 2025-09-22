@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Click the Box</title>
-    <link rel="stylesheet" type="text/css" href="game.css">
+  <title>Click Game with Global Leaderboard</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js"></script>
 </head>
 <body>
-  <h1>Hello this my game</h1>
-  <h2>Click the box as many times as you can in 30 seconds!</h2>
-  <h3>simple and easy</h3>
+  <h2>Click the Box!</h2>
+  <p>Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <br>
+  <button id="restartBtn">Restart</button>
+
   <h3>Leaderboard</h3>
-<ul id="leaderboard"></ul>
+  <ul id="leaderboard"></ul>
 
- <button id="restartBtn" style="display:none;">Restart</button>
-<canvas id="gameCanvas" width="600" height="600"></canvas>
-
- <script src="game.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-
