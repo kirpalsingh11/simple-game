@@ -38,9 +38,35 @@
 
   // Show restart button
   document.getElementById("restartBtn").style.display = "block";
+  // Save score to localStorage
+let scores = JSON.parse(localStorage.getItem("scores")) || [];
+scores.push(score);
+
+// Keep only top 5 scores
+scores.sort((a, b) => b - a);
+scores = scores.slice(0, 5);
+
+localStorage.setItem("scores", JSON.stringify(scores));
+
+// Update leaderboard
+updateLeaderboard();
+
 
   return;
 }
+
+function updateLeaderboard() {
+  let scores = JSON.parse(localStorage.getItem("scores")) || [];
+  let list = document.getElementById("leaderboard");
+  list.innerHTML = "";
+
+  scores.forEach((s, i) => {
+    let li = document.createElement("li");
+    li.textContent = `#${i+1}: ${s}`;
+    list.appendChild(li);
+  });
+}
+
 
 document.getElementById("restartBtn").addEventListener("click", () => {
   // Reset game variables
@@ -89,3 +115,4 @@ document.getElementById("restartBtn").addEventListener("click", () => {
     });
 
     gameLoop();
+    updateLeaderboard();
