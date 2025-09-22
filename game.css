@@ -1,8 +1,10 @@
-canvas { 
-  border: 2px solid orange; 
-    background-color: aqua;
-
+canvas {
+  border: 2px solid orange;
+  display: block;
+  margin: 0 auto;
+  background-color: light-blue;
 }
+
 #restartBtn { 
   display: none; 
   margin-top: 10px; 
@@ -10,24 +12,28 @@ canvas {
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-
+  position: relative; /* so absolute children are relative to body */
+  margin: 0;
 }
+
 #leaderboard {
   list-style: none;
   padding: 10px;
-  position: absolute; /* position relative to the page */
-  top: 20px;          /* distance from top */
-  left: 20px;         /* distance from left */
-  background-color: rgba(255,255,255,0.8); /* slightly transparent */
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(255,255,255,0.8);
   border: 1px solid black;
   border-radius: 5px;
-  width: 150px;       /* fixed width */
+  width: 150px;
+  z-index: 10; /* make sure it’s on top of the canvas */
 }
 
 #leaderboard li {
   font-size: 16px;
   margin: 2px 0;
 }
+
 
 
 
