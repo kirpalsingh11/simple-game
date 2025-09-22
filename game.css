@@ -14,11 +14,20 @@ body {
 }
 #leaderboard {
   list-style: none;
-  padding: 0;
+  padding: 10px;
+  position: absolute; /* position relative to the page */
+  top: 20px;          /* distance from top */
+  left: 20px;         /* distance from left */
+  background-color: rgba(255,255,255,0.8); /* slightly transparent */
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 150px;       /* fixed width */
 }
+
 #leaderboard li {
-  font-size: 18px;
+  font-size: 16px;
   margin: 2px 0;
 }
+
 
 
