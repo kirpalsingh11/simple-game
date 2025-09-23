@@ -1,5 +1,5 @@
 #gameContainer {
-  position: relative;
+  position: relative; /* makes leaderboard position absolute relative to container */
   width: 600px;
   margin: 0 auto;
 }
@@ -14,13 +14,13 @@ canvas {
   padding: 10px;
   margin: 0;
   position: absolute;
-  top: 10px;
+  top: 10px;  /* top-left corner inside container */
   left: 10px;
   background-color: rgba(255,255,255,0.9);
   border: 1px solid black;
   border-radius: 5px;
   width: 150px;
-  z-index: 10;
+  z-index: 10; /* stay above canvas */
 }
 
 #leaderboard li {
