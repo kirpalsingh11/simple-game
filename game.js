@@ -1,13 +1,13 @@
 // ---------------- Firebase Config ----------------
 // Replace these values with your Firebase project settings
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456"
+  apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
+  authDomain: "click-game-cc39b.firebaseapp.com",
+  projectId: "click-game-cc39b",
+  storageBucket: "click-game-cc39b.firebasestorage.app",
+  messagingSenderId: "966402336573",
+  appId: "1:966402336573:web:d6814160a4b6ca7abe0754",
+  measurementId: "G-39SJXWZFHN"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -124,3 +124,4 @@ document.getElementById("restartBtn").addEventListener("click", () => {
 updateLeaderboard();
 gameLoop();
 countdown();
+
