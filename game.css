@@ -1,5 +1,12 @@
 #gameContainer {
-  position: relative; /* so children with absolute are relative to this container */
+  position: relative;
+  width: 600px;
+  margin: 0 auto;
+}
+
+canvas {
+  border: 2px solid black;
+  display: block;
 }
 
 #leaderboard {
@@ -9,11 +16,11 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255,255,255,0.9);
   border: 1px solid black;
   border-radius: 5px;
   width: 150px;
-  z-index: 10; /* ensure it's on top of canvas */
+  z-index: 10;
 }
 
 #leaderboard li {
@@ -21,7 +28,11 @@
   margin: 2px 0;
 }
 
-canvas {
-  border: 2px solid black;
-  display: block;
+#restartBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  z-index: 10;
 }
+
