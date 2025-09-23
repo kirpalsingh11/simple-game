@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Click the Box</title>
-    <link rel="stylesheet" type="text/css" href="game.css">
+  <title>Click Game</title>
+  <link rel="stylesheet" href="game.css">
+
+  <!-- Firebase SDK v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
- <button id="restartBtn" style="display:none;">Restart</button>
-<canvas id="gameCanvas" width="600" height="600"></canvas>
+  <div id="gameContainer">
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
 
- <script src="game.js"></script>
+    <!-- Global Leaderboard top-left -->
+    <ul id="leaderboard"></ul>
+
+    <!-- Restart button top-right -->
+    <button id="restartBtn">Restart</button>
+  </div>
+
+  <!-- Timer and score -->
+  <p style="text-align:center;">Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
+
+  <script src="game.js"></script>
 </body>
 </html>
