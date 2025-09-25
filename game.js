@@ -3,12 +3,14 @@
 const firebaseConfig = {
   apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
   authDomain: "click-game-cc39b.firebaseapp.com",
+  databaseURL: "https://click-game-cc39b-default-rtdb.firebaseio.com/",  // ✅ add this
   projectId: "click-game-cc39b",
-  storageBucket: "click-game-cc39b.firebasestorage.app",
+  storageBucket: "click-game-cc39b.appspot.com",
   messagingSenderId: "966402336573",
   appId: "1:966402336573:web:d6814160a4b6ca7abe0754",
   measurementId: "G-39SJXWZFHN"
 };
+
 
 // ---------------- init Firebase safely ----------------
 let db = null;
@@ -181,4 +183,5 @@ window.pushTestScore = function () {
 updateLeaderboard();
 gameLoop();
 countdown();
+
 
