@@ -1,34 +1,33 @@
-// ---------------- Firebase Config ----------------
+// Firebase config (replace with your own from Firebase Console)
 const firebaseConfig = {
   apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
   authDomain: "click-game-cc39b.firebaseapp.com",
-  databaseURL: "https://click-game-cc39b.firebaseio.com",
   projectId: "click-game-cc39b",
   storageBucket: "click-game-cc39b.firebasestorage.app",
   messagingSenderId: "966402336573",
-  appId: "1:966402336573:web:d6814160a4b6ca7abe0754"
-};
+  appId: "1:966402336573:web:d6814160a4b6ca7abe0754",
+  measurementId: "G-39SJXWZFHN"
+}
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ---------------- Game variables ----------------
+// Game variables
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-
 let box = { x: 100, y: 100, size: 40 };
 let score = 0;
 let timeLeft = 30;
 let gameOver = false;
 let frame;
 
-// ---------------- Draw Box ----------------
+// Draw the red box
 function drawBox() {
   ctx.fillStyle = "red";
   ctx.fillRect(box.x, box.y, box.size, box.size);
 }
 
-// ---------------- Game Loop ----------------
+// Game loop
 function gameLoop() {
   if (gameOver) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -36,7 +35,7 @@ function gameLoop() {
   frame = requestAnimationFrame(gameLoop);
 }
 
-// ---------------- Click Detection ----------------
+// Click detection
 canvas.addEventListener("click", e => {
   if (gameOver) return;
   let rect = canvas.getBoundingClientRect();
@@ -52,7 +51,7 @@ canvas.addEventListener("click", e => {
   }
 });
 
-// ---------------- Countdown Timer ----------------
+// Countdown
 function countdown() {
   if (timeLeft > 0) {
     document.getElementById("timer").textContent = timeLeft;
@@ -63,41 +62,33 @@ function countdown() {
   }
 }
 
-// ---------------- End Game ----------------
+// End game
 function endGame() {
   gameOver = true;
   cancelAnimationFrame(frame);
-
   ctx.fillStyle = "black";
   ctx.font = "30px Arial";
   ctx.fillText("Game Over!", 180, 280);
   ctx.fillText("Score: " + score, 200, 320);
-
   saveScore(score);
   document.getElementById("restartBtn").style.display = "block";
 }
 
-// ---------------- Save Score to Firebase ----------------
+// Save score to Firebase
 function saveScore(newScore) {
-  db.ref("scores").push({
-    score: newScore,
-    time: Date.now()
-  });
+  db.ref("scores").push({ score: newScore, time: Date.now() });
   updateLeaderboard();
 }
 
-// ---------------- Update Leaderboard from Firebase ----------------
+// Update leaderboard
 function updateLeaderboard() {
   db.ref("scores")
     .orderByChild("score")
     .limitToLast(5)
     .on("value", snapshot => {
       let scores = [];
-      snapshot.forEach(snap => {
-        scores.push(snap.val().score);
-      });
+      snapshot.forEach(snap => scores.push(snap.val().score));
       scores = scores.reverse();
-
       let list = document.getElementById("leaderboard");
       list.innerHTML = "";
       scores.forEach((s, i) => {
@@ -108,7 +99,7 @@ function updateLeaderboard() {
     });
 }
 
-// ---------------- Restart Button ----------------
+// Restart button
 document.getElementById("restartBtn").addEventListener("click", () => {
   score = 0;
   timeLeft = 30;
@@ -119,7 +110,8 @@ document.getElementById("restartBtn").addEventListener("click", () => {
   countdown();
 });
 
-// ---------------- Start Game ----------------
+// Start game
 updateLeaderboard();
 gameLoop();
 countdown();
+
