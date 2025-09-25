@@ -10,7 +10,14 @@
 <body>
   <div id="gameContainer">
     <canvas id="gameCanvas" width="600" height="600"></canvas>
-    <ul id="leaderboard"></ul>
+
+    <!-- Put leaderboard OUTSIDE canvas but INSIDE container -->
+    <div id="leaderboardWrapper">
+      <h3>Leaderboard</h3>
+      <ul id="leaderboard"></ul>
+    </div>
+
+    <!-- Restart button -->
     <button id="restartBtn">Restart</button>
   </div>
 
