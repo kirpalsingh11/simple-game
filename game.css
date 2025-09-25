@@ -9,25 +9,37 @@ canvas {
   display: block;
 }
 
-#leaderboard {
-  list-style: none;
-  padding: 10px;
-  margin: 0;
+/* Leaderboard box */
+#leaderboardWrapper {
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.9);
   border: 1px solid black;
   border-radius: 5px;
-  width: 150px;
+  padding: 8px;
+  width: 160px;
   z-index: 10;
 }
 
+#leaderboardWrapper h3 {
+  margin: 0 0 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+#leaderboard {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 #leaderboard li {
-  font-size: 16px;
+  font-size: 14px;
   margin: 2px 0;
 }
 
+/* Restart button top-right */
 #restartBtn {
   position: absolute;
   top: 10px;
