@@ -1,14 +1,15 @@
 // ---------------- Firebase Config ----------------
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
+  authDomain: "click-game-cc39b.firebaseapp.com",
+  databaseURL: "https://click-game-cc39b-default-rtdb.firebaseio.com",
+  projectId: "click-game-cc39b",
+  storageBucket: "click-game-cc39b.firebasestorage.app",
+  messagingSenderId: "966402336573",
+  appId: "1:966402336573:web:d6814160a4b6ca7abe0754",
+  measurementId: "G-39SJXWZFHN"
 };
-
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
@@ -153,3 +154,4 @@ function startGame() {
   gameLoop();
   countdown();
 }
+
