@@ -1,54 +1,35 @@
-/* container centers canvas and provides positioning context */
-#gameContainer {
-  position: relative;
-  width: 600px;
-  margin: 20px auto;
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
 
-/* canvas styling */
 canvas {
   border: 2px solid black;
   display: block;
 }
 
-/* leaderboard wrapper floats inside the container, top-left */
-#leaderboardWrapper {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(255,255,255,0.95);
-  border: 1px solid #222;
-  border-radius: 6px;
-  padding: 8px;
-  width: 170px;
-  z-index: 20;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-#leaderboardWrapper h3 {
-  margin: 0 0 6px 0;
-  font-size: 14px;
-  text-align: center;
+#leaderboardBox {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  width: 200px;
+  height: fit-content;
 }
 
 #leaderboard {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 200px;
-  overflow: auto;
+  text-align: left;
 }
 
 #leaderboard li {
-  font-size: 14px;
+  font-size: 16px;
   margin: 4px 0;
 }
 
-/* restart button in top-right of container */
 #restartBtn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+  margin-top: 15px;
   display: none;
-  z-index: 25;
 }
