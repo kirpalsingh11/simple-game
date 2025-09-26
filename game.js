@@ -1,4 +1,5 @@
 // ---------------- Firebase Config ----------------
+// 🔹 Replace with YOUR Firebase project config
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
@@ -19,13 +20,8 @@ function register() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   auth.createUserWithEmailAndPassword(email, password)
-    .then(() => {
-      document.getElementById("loginMessage").textContent = "Registered! Logging in...";
-      login();
-    })
-    .catch(err => {
-      document.getElementById("loginMessage").textContent = err.message;
-    });
+    .then(() => login())
+    .catch(err => document.getElementById("loginMessage").textContent = err.message);
 }
 
 function login() {
@@ -37,9 +33,7 @@ function login() {
       document.getElementById("gameContainer").style.display = "block";
       startGame();
     })
-    .catch(err => {
-      document.getElementById("loginMessage").textContent = err.message;
-    });
+    .catch(err => document.getElementById("loginMessage").textContent = err.message);
 }
 
 // ---------------- Game Variables ----------------
@@ -56,14 +50,14 @@ function drawBox() {
   ctx.fillRect(box.x, box.y, box.size, box.size);
 }
 
-// ---------------- Update Leaderboard ----------------
+// ---------------- Leaderboard ----------------
 function updateLeaderboard() {
   db.ref("scores").orderByChild("score").limitToLast(5).on("value", snapshot => {
     const list = document.getElementById("leaderboard");
     list.innerHTML = "";
     const scores = [];
     snapshot.forEach(snap => scores.push(snap.val()));
-    scores.reverse().forEach((s, i) => {
+    scores.reverse().forEach((s,i) => {
       const li = document.createElement("li");
       li.textContent = `#${i+1}: ${s.username} - ${s.score}`;
       list.appendChild(li);
@@ -137,7 +131,6 @@ function setupCanvasClicks() {
     ) {
       score++;
       document.getElementById("score").textContent = score;
-      // Move box randomly
       box.x = Math.random() * (canvas.width - box.size);
       box.y = Math.random() * (canvas.height - box.size);
     }
