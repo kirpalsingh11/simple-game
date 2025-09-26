@@ -2,11 +2,10 @@ let canvas, ctx;
 let box = {x:100,y:100,size:50};
 let score=0, timeLeft=30, gameOver=false, frame;
 let playerName="";
-
 function startWithName(){
   const input = document.getElementById("username").value.trim();
   if(!input){ document.getElementById("loginMessage").textContent="Enter a name!"; return; }
-  playerName=input;
+  playerName = input;
   document.getElementById("loginScreen").style.display="none";
   document.getElementById("gameContainer").style.display="block";
   startGame();
@@ -27,12 +26,16 @@ function updateLeaderboard(){
     });
   });
 }
-
 function saveScore(){
-  if(!playerName) return;
-  db.ref("scores").push({name:playerName, score:score, time:Date.now()});
+  if(!playerName) playerName = "Anonymous"; // fallback
+  db.ref("scores").push({
+    name: playerName,
+    score: score,
+    time: Date.now()
+  });
   updateLeaderboard();
 }
+
 
 function gameLoop(){ if(gameOver) return; ctx.clearRect(0,0,canvas.width,canvas.height); drawBox(); frame=requestAnimationFrame(gameLoop); }
 
@@ -70,3 +73,4 @@ function startGame(){
   gameLoop();
   countdown();
 }
+
