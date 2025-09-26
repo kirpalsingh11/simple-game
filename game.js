@@ -1,5 +1,4 @@
 // ---------------- Firebase Config ----------------
-// Replace with your Firebase project config
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
@@ -11,134 +10,128 @@ const firebaseConfig = {
   appId: "1:966402336573:web:c7e75881e384ffb8be0754",
   measurementId: "G-LKJD88BWW3"
 };
+
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
 const db = firebase.database();
 
-// ---------------- Login/Register ----------------
-function register() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  auth.createUserWithEmailAndPassword(email,password)
-      .then(()=>login())
-      .catch(err=>document.getElementById("loginMessage").textContent=err.message);
-}
-
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  auth.signInWithEmailAndPassword(email,password)
-      .then(()=> {
-        document.getElementById("loginScreen").style.display="none";
-        document.getElementById("gameContainer").style.display="block";
-        startGame();
-      })
-      .catch(err=>document.getElementById("loginMessage").textContent=err.message);
-}
-
-// ---------------- Game Variables ----------------
+// ---------------- Global Variables ----------------
+let playerName = "";
 let canvas, ctx;
-let box={x:100,y:100,size:50};
-let score=0;
-let timeLeft=30;
-let gameOver=false;
+let box = { x: 100, y: 100, size: 50 };
+let score = 0;
+let timeLeft = 30;
+let gameOver = false;
 let frame;
 
-// ---------------- Draw Box ----------------
-function drawBox(){ 
-  ctx.fillStyle="red"; 
-  ctx.fillRect(box.x,box.y,box.size,box.size); 
+// ---------------- Name input ----------------
+function startWithName() {
+  const nameInput = document.getElementById("username").value.trim();
+  if (!nameInput) {
+    document.getElementById("loginMessage").textContent = "Please enter a name!";
+    return;
+  }
+  playerName = nameInput;
+
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("gameContainer").style.display = "block";
+
+  startGame();
 }
 
-// ---------------- Leaderboard ----------------
-function updateLeaderboard(){
-  db.ref("scores").orderByChild("score").limitToLast(5).on("value",snapshot=>{
-    const list=document.getElementById("leaderboard");
-    list.innerHTML="";
-    const scores=[];
-    snapshot.forEach(snap=>scores.push(snap.val()));
-    scores.reverse().forEach((s,i)=>{
-      const li=document.createElement("li");
-      li.textContent=`#${i+1}: ${s.username} - ${s.score}`;
-      list.appendChild(li);
-    });
-  });
+// ---------------- Game Functions ----------------
+function drawBox() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(box.x, box.y, box.size, box.size);
 }
 
-// ---------------- Save Score ----------------
-function saveScore(){
-  const user=auth.currentUser;
-  if(!user) return;
+function gameLoop() {
+  if (gameOver) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBox();
+  frame = requestAnimationFrame(gameLoop);
+}
+
+function countdown() {
+  if (timeLeft > 0) {
+    document.getElementById("timer").textContent = timeLeft;
+    timeLeft--;
+    setTimeout(countdown, 1000);
+  } else {
+    endGame();
+  }
+}
+
+function endGame() {
+  gameOver = true;
+  cancelAnimationFrame(frame);
+  ctx.fillStyle = "#000";
+  ctx.font = "30px Arial";
+  ctx.fillText("Game Over!", 180, 280);
+  ctx.fillText("Score: " + score, 200, 320);
+  saveScore();
+  document.getElementById("restartBtn").style.display = "block";
+}
+
+function saveScore() {
+  if (!playerName) return;
   db.ref("scores").push({
-    username:user.email.split("@")[0],
-    score:score,
-    time:Date.now()
+    username: playerName,
+    score: score,
+    time: Date.now()
   });
   updateLeaderboard();
 }
 
-// ---------------- Game Loop ----------------
-function gameLoop(){ 
-  if(gameOver) return; 
-  ctx.clearRect(0,0,canvas.width,canvas.height); 
-  drawBox(); 
-  frame=requestAnimationFrame(gameLoop); 
+function updateLeaderboard() {
+  db.ref("scores")
+    .orderByChild("score")
+    .limitToLast(5)
+    .on("value", snapshot => {
+      const list = document.getElementById("leaderboard");
+      list.innerHTML = "";
+      const scores = [];
+      snapshot.forEach(snap => scores.push(snap.val()));
+      scores.reverse().forEach((s,i)=>{
+        const li = document.createElement("li");
+        li.textContent = `#${i+1}: ${s.username} - ${s.score}`;
+        list.appendChild(li);
+      });
+    });
 }
-
-// ---------------- Countdown ----------------
-function countdown(){ 
-  if(timeLeft>0){ 
-    document.getElementById("timer").textContent=timeLeft; 
-    timeLeft--; 
-    setTimeout(countdown,1000); 
-  } else { 
-    endGame(); 
-  } 
-}
-
-// ---------------- End Game ----------------
-function endGame(){ 
-  gameOver=true; 
-  cancelAnimationFrame(frame); 
-  ctx.fillStyle="#000"; 
-  ctx.font="30px Arial"; 
-  ctx.fillText("Game Over!",180,280); 
-  ctx.fillText("Score: "+score,200,320); 
-  saveScore(); 
-  document.getElementById("restartBtn").style.display="block"; 
-}
-
-// ---------------- Restart ----------------
-document.getElementById("restartBtn").addEventListener("click",()=>{
-  score=0; timeLeft=30; gameOver=false;
-  document.getElementById("score").textContent=score;
-  document.getElementById("restartBtn").style.display="none";
-  startGame();
-});
 
 // ---------------- Canvas Click ----------------
-function setupCanvasClicks(){
-  canvas.addEventListener("click",e=>{
-    if(gameOver) return;
-    const rect=canvas.getBoundingClientRect();
-    const mouseX=e.clientX-rect.left;
-    const mouseY=e.clientY-rect.top;
-    if(mouseX>=box.x && mouseX<=box.x+box.size && mouseY>=box.y && mouseY<=box.y+box.size){
+function setupCanvasClicks() {
+  canvas.addEventListener("click", e => {
+    if (gameOver) return;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    if (mouseX >= box.x && mouseX <= box.x + box.size &&
+        mouseY >= box.y && mouseY <= box.y + box.size) {
       score++;
-      document.getElementById("score").textContent=score;
-      box.x=Math.random()*(canvas.width-box.size);
-      box.y=Math.random()*(canvas.height-box.size);
+      document.getElementById("score").textContent = score;
+      box.x = Math.random() * (canvas.width - box.size);
+      box.y = Math.random() * (canvas.height - box.size);
     }
   });
 }
 
-// ---------------- Start Game ----------------
-function startGame(){
-  canvas=document.getElementById("gameCanvas");
-  ctx=canvas.getContext("2d");
-  document.getElementById("score").textContent=score;
+// ---------------- Start/Restart ----------------
+function startGame() {
+  canvas = document.getElementById("gameCanvas");
+  ctx = canvas.getContext("2d");
+  document.getElementById("score").textContent = score;
   setupCanvasClicks();
   updateLeaderboard();
   gameLoop();
   countdown();
 }
+
+document.getElementById("restartBtn").addEventListener("click", ()=>{
+  score = 0; timeLeft = 30; gameOver = false;
+  document.getElementById("score").textContent = score;
+  document.getElementById("restartBtn").style.display = "none";
+  startGame();
+});
+
