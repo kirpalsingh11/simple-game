@@ -4,10 +4,7 @@
   <title>Click Game</title>
   <link rel="stylesheet" href="game.css">
 
-  <!-- Firebase v8 SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
 </head>
 <body>
 
@@ -39,8 +36,32 @@
       Time: <span id="timer">30</span>s | Score: <span id="score">0</span>
     </div>
   </div>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
+    authDomain: "click-game-cc39b.firebaseapp.com",
+    databaseURL: "https://click-game-cc39b-default-rtdb.firebaseio.com",
+    projectId: "click-game-cc39b",
+    storageBucket: "click-game-cc39b.firebasestorage.app",
+    messagingSenderId: "966402336573",
+    appId: "1:966402336573:web:bfe84296d32b79ffbe0754",
+    measurementId: "G-8Q3FMGWS5D"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
   <script src="game.js"></script>
 </body>
 </html>
+
 
