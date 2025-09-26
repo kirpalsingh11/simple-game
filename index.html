@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Click Game</title>
+  <title> Click Game</title>
   <link rel="stylesheet" href="game.css">
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
-  <div id="loginScreen">
+
+  <div id="loginScreen" class="overlay">
     <h2>Login / Register</h2>
-    <input id="username" placeholder="Username"><br>
-    <input id="password" type="password" placeholder="Password"><br>
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
     <button onclick="register()">Register</button>
     <button onclick="login()">Login</button>
     <p id="loginMessage"></p>
@@ -20,11 +22,16 @@
   <div id="gameContainer" style="display:none;">
     <canvas id="gameCanvas" width="600" height="600"></canvas>
 
-    <!-- Global leaderboard -->
-    <ul id="leaderboard"></ul>
+    <div id="leaderboardContainer">
+      <h3>Leaderboard</h3>
+      <ul id="leaderboard"></ul>
+    </div>
+
     <button id="restartBtn">Restart</button>
 
-    <p>Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
+    <div id="statusBar">
+      Time: <span id="timer">30</span>s | Score: <span id="score">0</span>
+    </div>
   </div>
 
   <script src="game.js"></script>
