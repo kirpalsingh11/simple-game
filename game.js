@@ -1,7 +1,20 @@
+// ---------------- Firebase Config ----------------
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
+  authDomain: "click-game-cc39b.firebaseapp.com",
+  databaseURL: "https://click-game-cc39b-default-rtdb.firebaseio.com",
+  projectId: "click-game-cc39b",
+  storageBucket: "click-game-cc39b.firebasestorage.app",
+  messagingSenderId: "966402336573",
+  appId: "1:966402336573:web:c7e75881e384ffb8be0754",
+  measurementId: "G-LKJD88BWW3"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
 
-
-
-// ---------------- Login/Register ----------------
+// ---------------- Login / Register ----------------
 function register() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -31,7 +44,7 @@ let gameOver=false;
 let frame;
 
 // ---------------- Draw Box ----------------
-function drawBox(){ ctx.fillStyle="red"; ctx.fillRect(box.x,box.y,box.size,box.size); }
+function drawBox() { ctx.fillStyle="red"; ctx.fillRect(box.x,box.y,box.size,box.size); }
 
 // ---------------- Leaderboard ----------------
 function updateLeaderboard(){
@@ -61,13 +74,33 @@ function saveScore(){
 }
 
 // ---------------- Game Loop ----------------
-function gameLoop(){ if(gameOver) return; ctx.clearRect(0,0,canvas.width,canvas.height); drawBox(); frame=requestAnimationFrame(gameLoop); }
+function gameLoop(){
+  if(gameOver) return;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawBox();
+  frame=requestAnimationFrame(gameLoop);
+}
 
 // ---------------- Countdown ----------------
-function countdown(){ if(timeLeft>0){ document.getElementById("timer").textContent=timeLeft; timeLeft--; setTimeout(countdown,1000); } else { endGame(); } }
+function countdown(){
+  if(timeLeft>0){
+    document.getElementById("timer").textContent=timeLeft;
+    timeLeft--;
+    setTimeout(countdown,1000);
+  } else { endGame(); }
+}
 
 // ---------------- End Game ----------------
-function endGame(){ gameOver=true; cancelAnimationFrame(frame); ctx.fillStyle="#000"; ctx.font="30px Arial"; ctx.fillText("Game Over!",180,280); ctx.fillText("Score: "+score,200,320); saveScore(); document.getElementById("restartBtn").style.display="block"; }
+function endGame(){
+  gameOver=true;
+  cancelAnimationFrame(frame);
+  ctx.fillStyle="#000";
+  ctx.font="30px Arial";
+  ctx.fillText("Game Over!",180,280);
+  ctx.fillText("Score: "+score,200,320);
+  saveScore();
+  document.getElementById("restartBtn").style.display="block";
+}
 
 // ---------------- Restart ----------------
 document.getElementById("restartBtn").addEventListener("click",()=>{
@@ -103,5 +136,4 @@ function startGame(){
   gameLoop();
   countdown();
 }
-
 
