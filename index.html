@@ -1,47 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Click Game - Login</title>
+  <title>Click Game</title>
   <link rel="stylesheet" href="game.css">
-
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
-  <!-- Login Screen -->
   <div id="loginScreen">
-    <h2>Login</h2>
-    <input id="username" placeholder="Username"><br><br>
-    <input id="password" type="password" placeholder="Password"><br><br>
-    <button onclick="login()">Login</button>
+    <h2>Login / Register</h2>
+    <input id="username" placeholder="Username"><br>
+    <input id="password" type="password" placeholder="Password"><br>
     <button onclick="register()">Register</button>
-    <p id="loginMsg"></p>
+    <button onclick="login()">Login</button>
+    <p id="loginMessage"></p>
   </div>
 
-  <!-- Game Screen -->
   <div id="gameContainer" style="display:none;">
-    <div style="display:flex; justify-content:center; gap:20px;">
-      <!-- Canvas -->
-      <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
 
-      <!-- Leaderboard -->
-      <div id="leaderboardBox">
-        <h3>🏆 Leaderboard</h3>
-        <ul id="leaderboard"></ul>
-      </div>
-    </div>
-
-    <!-- Restart button -->
+    <!-- Global leaderboard -->
+    <ul id="leaderboard"></ul>
     <button id="restartBtn">Restart</button>
 
-    <!-- Timer and score -->
     <p>Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
   </div>
 
   <script src="game.js"></script>
-  <script src="server.js"></script>
 </body>
 </html>
-
 
