@@ -11,6 +11,7 @@ const firebaseConfig = {
   measurementId: "G-LKJD88BWW3"
 };
 
+
 let canvas, ctx;
 let box = { x: 100, y: 100, size: 50 };
 let score = 0;
@@ -139,4 +140,5 @@ function startWithName() {
   document.getElementById("gameContainer").style.display = "block";
   startGame();
 }
+
 
