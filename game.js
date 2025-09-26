@@ -18,22 +18,32 @@ const db = firebase.database();
 function register() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  auth.createUserWithEmailAndPassword(email,password)
-      .then(()=>login())
-      .catch(err=>document.getElementById("loginMessage").textContent=err.message);
+
+  auth.createUserWithEmailAndPassword(email, password)
+      .then(() => {
+          document.getElementById("loginMessage").textContent = "Registered!";
+          login();
+      })
+      .catch(err => {
+          document.getElementById("loginMessage").textContent = err.message;
+      });
 }
 
 function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  auth.signInWithEmailAndPassword(email,password)
-      .then(()=> {
-        document.getElementById("loginScreen").style.display="none";
-        document.getElementById("gameContainer").style.display="block";
-        startGame();
+
+  auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+          document.getElementById("loginScreen").style.display = "none";
+          document.getElementById("gameContainer").style.display = "block";
+          startGame();
       })
-      .catch(err=>document.getElementById("loginMessage").textContent=err.message);
+      .catch(err => {
+          document.getElementById("loginMessage").textContent = err.message;
+      });
 }
+
 
 // ---------------- Game Variables ----------------
 let canvas, ctx;
@@ -136,4 +146,5 @@ function startGame(){
   gameLoop();
   countdown();
 }
+
 
