@@ -4,29 +4,25 @@
   <title>Click Game</title>
   <link rel="stylesheet" href="game.css">
 
-  <!-- Firebase SDK v8 -->
+  <!-- Firebase v8 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
   <script>
-    // ---------------- Firebase Config ----------------
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBpDkkemB9ohWS5ZUm5T0YqPqIvxSz7Tc4",
-  authDomain: "click-game-cc39b.firebaseapp.com",
-  databaseURL: "https://click-game-cc39b-default-rtdb.firebaseio.com",
-  projectId: "click-game-cc39b",
-  storageBucket: "click-game-cc39b.firebasestorage.app",
-  messagingSenderId: "966402336573",
-  appId: "1:966402336573:web:c7e75881e384ffb8be0754",
-  measurementId: "G-LKJD88BWW3"
-};
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
   </script>
 </head>
 <body>
-  <!-- Login overlay -->
+  <!-- Login Overlay -->
   <div id="loginScreen" class="overlay">
     <h2>Enter Your Name</h2>
     <input id="username" type="text" placeholder="Name">
@@ -35,21 +31,23 @@ const firebaseConfig = {
   </div>
 
   <!-- Game container -->
-  <div id="gameContainer" style="display:none;">
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
+  <div id="gameWrapper">
+    <div id="gameContainer" style="display:none;">
+      <canvas id="gameCanvas" width="600" height="600"></canvas>
 
-    <!-- Leaderboard top-left -->
+      <!-- Restart top-right -->
+      <button id="restartBtn">Restart</button>
+
+      <!-- Timer and score -->
+      <div id="statusBar">
+        Time: <span id="timer">30</span>s | Score: <span id="score">0</span>
+      </div>
+    </div>
+
+    <!-- Leaderboard outside canvas -->
     <div id="leaderboardContainer">
       <h3>Leaderboard</h3>
       <ul id="leaderboard"></ul>
-    </div>
-
-    <!-- Restart top-right -->
-    <button id="restartBtn">Restart</button>
-
-    <!-- Timer and score -->
-    <div id="statusBar">
-      Time: <span id="timer">30</span>s | Score: <span id="score">0</span>
     </div>
   </div>
 
