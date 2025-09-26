@@ -9,8 +9,10 @@ const firebaseConfig = {
   messagingSenderId: "966402336573",
   appId: "1:966402336573:web:c7e75881e384ffb8be0754",
   measurementId: "G-LKJD88BWW3"
-};
 
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
 let canvas, ctx;
 let box = { x: 100, y: 100, size: 50 };
@@ -140,5 +142,6 @@ function startWithName() {
   document.getElementById("gameContainer").style.display = "block";
   startGame();
 }
+
 
 
