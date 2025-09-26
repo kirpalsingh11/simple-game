@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Click Game</title>
+  <title>Fancy Click Game</title>
   <link rel="stylesheet" href="game.css">
-  <!-- Firebase SDK -->
+
+  <!-- Firebase SDK v8 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
+  <!-- Login/Register overlay -->
   <div id="loginScreen" class="overlay">
     <h2>Login / Register</h2>
     <input id="email" type="email" placeholder="Email">
@@ -19,16 +21,20 @@
     <p id="loginMessage"></p>
   </div>
 
+  <!-- Game container -->
   <div id="gameContainer" style="display:none;">
     <canvas id="gameCanvas" width="600" height="600"></canvas>
 
+    <!-- Global leaderboard top-left -->
     <div id="leaderboardContainer">
       <h3>Leaderboard</h3>
       <ul id="leaderboard"></ul>
     </div>
 
+    <!-- Restart button top-right -->
     <button id="restartBtn">Restart</button>
 
+    <!-- Timer and score -->
     <div id="statusBar">
       Time: <span id="timer">30</span>s | Score: <span id="score">0</span>
     </div>
@@ -37,4 +43,3 @@
   <script src="game.js"></script>
 </body>
 </html>
-
