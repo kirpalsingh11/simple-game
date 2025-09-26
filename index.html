@@ -1,33 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Click Game</title>
+  <title>Click Game - Login</title>
   <link rel="stylesheet" href="game.css">
 
-  <!-- Firebase v8 (matches this code) -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
-  <div id="gameContainer">
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
-
-    <!-- Leaderboard wrapper (top-left) -->
-    <div id="leaderboardWrapper">
-      <h3>Leaderboard</h3>
-      <ul id="leaderboard"></ul>
-      <div id="leaderboardStatus" style="font-size:12px;color:#333;margin-top:6px;"></div>
-    </div>
-
-    <!-- Restart button top-right -->
-    <button id="restartBtn">Restart</button>
+  <!-- Login Screen -->
+  <div id="loginScreen">
+    <h2>Login</h2>
+    <input id="username" placeholder="Username"><br><br>
+    <input id="password" type="password" placeholder="Password"><br><br>
+    <button onclick="login()">Login</button>
+    <button onclick="register()">Register</button>
+    <p id="loginMsg"></p>
   </div>
 
-  <p style="text-align:center;">
-    Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span>
-  </p>
+  <!-- Game Screen -->
+  <div id="gameContainer" style="display:none;">
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    
+    <!-- Leaderboard -->
+    <ul id="leaderboard"></ul>
+    
+    <!-- Restart -->
+    <button id="restartBtn">Restart</button>
+    <p>Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
+  </div>
 
   <script src="game.js"></script>
+  <script>
+    let currentUser = null;
+
+    async function register() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("http://localhost:4000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      document.getElementById("loginMsg").textContent = data.success ? "✅ Registered! Now login." : data.error;
+    }
+
+    async function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+
+      if (data.token) {
+        currentUser = username; // 🔹 Store username
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("gameContainer").style.display = "block";
+      } else {
+        document.getElementById("loginMsg").textContent = data.error;
+      }
+    }
+  </script>
 </body>
 </html>
