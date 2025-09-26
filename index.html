@@ -21,52 +21,25 @@
 
   <!-- Game Screen -->
   <div id="gameContainer" style="display:none;">
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
-    
-    <!-- Leaderboard -->
-    <ul id="leaderboard"></ul>
-    
-    <!-- Restart -->
+    <div style="display:flex; justify-content:center; gap:20px;">
+      <!-- Canvas -->
+      <canvas id="gameCanvas" width="600" height="600"></canvas>
+
+      <!-- Leaderboard -->
+      <div id="leaderboardBox">
+        <h3>🏆 Leaderboard</h3>
+        <ul id="leaderboard"></ul>
+      </div>
+    </div>
+
+    <!-- Restart button -->
     <button id="restartBtn">Restart</button>
+
+    <!-- Timer and score -->
     <p>Time Left: <span id="timer">30</span>s | Score: <span id="score">0</span></p>
   </div>
 
   <script src="game.js"></script>
-  <script>
-    let currentUser = null;
-
-    async function register() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      const res = await fetch("http://localhost:4000/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await res.json();
-      document.getElementById("loginMsg").textContent = data.success ? "✅ Registered! Now login." : data.error;
-    }
-
-    async function login() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      const res = await fetch("http://localhost:4000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await res.json();
-
-      if (data.token) {
-        currentUser = username; // 🔹 Store username
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("gameContainer").style.display = "block";
-      } else {
-        document.getElementById("loginMsg").textContent = data.error;
-      }
-    }
-  </script>
 </body>
 </html>
+
