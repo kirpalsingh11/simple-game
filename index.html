@@ -6,35 +6,29 @@
 
   <!-- Firebase SDK v8 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
-  <!-- Login overlay -->
+  <!-- Name input screen -->
   <div id="loginScreen" class="overlay">
-    <h2>Login / Register</h2>
-    <input id="email" type="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="register()">Register</button>
-    <button onclick="login()">Login</button>
+    <h2>Enter Your Name</h2>
+    <input id="username" type="text" placeholder="Your Name">
+    <button onclick="startWithName()">Start Game</button>
     <p id="loginMessage"></p>
   </div>
 
   <!-- Game container -->
   <div id="gameContainer" style="display:none;">
-    <div id="gameWrapper">
-      <!-- Leaderboard outside canvas -->
-      <div id="leaderboardContainer">
-        <h3>Leaderboard</h3>
-        <ul id="leaderboard"></ul>
-      </div>
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
 
-      <!-- Canvas -->
-      <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <!-- Leaderboard top-left -->
+    <div id="leaderboardContainer">
+      <h3>Leaderboard</h3>
+      <ul id="leaderboard"></ul>
     </div>
 
-    <!-- Restart button -->
+    <!-- Restart top-right -->
     <button id="restartBtn">Restart</button>
 
     <!-- Timer and score -->
